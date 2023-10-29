@@ -31,11 +31,19 @@ const ShoeCard = ({
       ? 'new-release'
       : 'default'
 
+  let message = "";
+  if (variant === "on-sale") {
+    message = "Sale";
+  } else if (variant === "new-release") {
+    message = "Just Released!";
+  }
+
   return (
     <Link href={`/shoe/${slug}`}>
       <Wrapper>
         <ImageWrapper>
           <Image alt="" src={imageSrc} />
+          <Flag variant={variant}>{message}</Flag>
         </ImageWrapper>
         <Spacer size={12} />
         <Row>
@@ -88,6 +96,21 @@ const ColorInfo = styled.p`
 const SalePrice = styled.span`
   font-weight: ${WEIGHTS.medium};
   color: ${COLORS.primary};
+`;
+
+const Flag = styled.div`
+  position: absolute;
+  display: ${(p) => p.variant === "default" && "none"};
+  top: 12px;
+  right: -4px;
+  background-color: ${(p) =>
+    p.variant === "on-sale" ? COLORS.primary : COLORS.secondary};
+  color: ${COLORS.white};
+  font-size: ${14 / 16}rem;
+  border-radius: 2px;
+
+  padding: 8px;
+  padding-top: 6px; // visual centering
 `;
 
 export default ShoeCard;
