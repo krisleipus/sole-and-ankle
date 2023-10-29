@@ -69,6 +69,9 @@ const Image = styled.img`
 
 const Row = styled.div`
   font-size: 1rem;
+
+  display: flex;
+  justify-content: space-between;
 `;
 
 const Name = styled.h3`
