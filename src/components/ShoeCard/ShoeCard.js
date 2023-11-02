@@ -31,6 +31,20 @@ const ShoeCard = ({
       ? 'new-release'
       : 'default'
 
+  const priceTextDecoration = "none";
+  const priceTextColor = COLORS.gray[900];
+  const styles = {
+    default: {
+      backgroundColor: COLORS.gray[200],
+    },
+    "new-release": { backgroundColor: COLORS.primary },
+    "on-sale": {
+      backgroundColor: COLORS.tertiary,
+      priceTextDecoration: "line-through",
+      priceTextColor: COLORS.gray[700],
+    },
+  };
+
   let message = "";
   if (variant === "on-sale") {
     message = "Sale";
@@ -48,10 +62,22 @@ const ShoeCard = ({
         <Spacer size={12} />
         <Row>
           <Name>{name}</Name>
-          <Price>{formatPrice(price)}</Price>
+          <Price
+            style={{
+              "--price-text-color":
+                styles[variant].priceTextColor ?? priceTextColor,
+              "--price-text-decoration":
+                styles[variant].priceTextDecoration ?? priceTextDecoration,
+            }}
+          >
+            {formatPrice(price)}
+          </Price>
         </Row>
         <Row>
           <ColorInfo>{pluralize("Color", numOfColors)}</ColorInfo>
+          {variant === "on-sale" && (
+            <SalePrice>{formatPrice(salePrice)}</SalePrice>
+          )}
         </Row>
       </Wrapper>
     </Link>
@@ -87,7 +113,10 @@ const Name = styled.h3`
   color: ${COLORS.gray[900]};
 `;
 
-const Price = styled.span``;
+const Price = styled.span`
+  color: var(--price-text-color);
+  text-decoration: var(--price-text-decoration);
+`;
 
 const ColorInfo = styled.p`
   color: ${COLORS.gray[700]};
